@@ -1,47 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Public Files</title>
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css')}}"
+    />
+  </head>
+  <body>
+    <h2>Public Files</h2>
 
-<h2>Public Files</h2>
+    <p>
+      <a href="{{ url_for('home') }}">⬅ Back to Home</a>
+    </p>
 
-<p>
-    <a href="{{ url_for('home') }}">⬅ Back to Home</a>
-</p>
+    <hr />
 
-<hr>
-
-{% if files|length == 0 %}
+    {% if files|length == 0 %}
     <p>No public files available.</p>
-{% else %}
-<table border="1" cellpadding="6" cellspacing="0">
-    <thead>
+    {% else %}
+    <table border="1" cellpadding="6" cellspacing="0">
+      <thead>
         <tr>
-            <th>File Name</th>
-            <th>Owner</th>
-            <th>Size (KB)</th>
-            <th>Uploaded</th>
-            <th>Download</th>
+          <th>File Name</th>
+          <th>Owner</th>
+          <th>Size (KB)</th>
+          <th>Uploaded</th>
+          <th>Download</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         {% for file in files %}
         <tr>
-            <td>{{ file.filename }}</td>
-            <td>{{ file.owner_user.username }}</td>
-            <td>{{ "%.2f"|format(file.size / 1024) }}</td>
-            <td>{{ file.time_uploaded.strftime('%Y-%m-%d %H:%M') }}</td>
-            <td>
-                <a href="{{ url_for('download', file_id=file.id) }}">Download</a>
-            </td>
+          <td>{{ file.filename }}</td>
+          <td>{{ file.owner_user.username }}</td>
+          <td>{{ "%.2f"|format(file.size / 1024) }}</td>
+          <td>{{ file.time_uploaded.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>
+            <a href="{{ url_for('download', file_id=file.id) }}">Download</a>
+          </td>
         </tr>
         {% endfor %}
-    </tbody>
-</table>
-{% endif %}
-
-</body>
+      </tbody>
+    </table>
+    {% endif %}
+  </body>
 </html>
